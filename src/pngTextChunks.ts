@@ -36,11 +36,13 @@ function decodeUTF8(bytes: Uint8Array): string {
 }
 
 async function inflateZlib(data: Uint8Array): Promise<Uint8Array> {
-  // In browser: DecompressionStream("deflate") spesso accetta zlib wrapper su Chromium.
-  // Se fallisce, proviamo "deflate-raw".
+  // zTXt/iTXt uses zlib-wrapped DEFLATE.
+  // TS DOM types can be picky about ArrayBufferLike; create a real ArrayBuffer-backed copy.
+  const safeBytes = new Uint8Array(data); // copies into an ArrayBuffer
+
   const tryStream = async (format: "deflate" | "deflate-raw") => {
     const ds = new DecompressionStream(format);
-    const stream = new Blob([data]).stream().pipeThrough(ds);
+    const stream = new Blob([safeBytes.buffer]).stream().pipeThrough(ds);
     const ab = await new Response(stream).arrayBuffer();
     return new Uint8Array(ab);
   };
