@@ -1,6 +1,6 @@
 # PNG Prompt Extractor
 
-🔗 Live Demo: [PNG Prompt Extractor](https://png-prompt-extractor.vercel.app/))
+🔗 Live Demo: [PNG Prompt Extractor](https://png-prompt-extractor.vercel.app/)
 
 Webapp minimal che:
 - carica uno o più PNG
